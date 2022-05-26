@@ -1,7 +1,3 @@
-# Vanilla Calorie Counter
-
-Thank you for completing this take-home assignment as part of your web developer interview. The assignment will help demonstrate your knowledge of React and general web development skills.
-
 ## Instructions
 
 This repo contains a simple calorie counter app made with vanilla JavaScript and LocalStorage for persistence. It has basic CRUD functionality where users can track the foods they have eaten that day.
