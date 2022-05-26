@@ -1,0 +1,21 @@
+/*all large container components in here, nitty gritty in .js files*/
+.App {
+  
+}
+
+/*affects Calorie Counter header text*/
+.headerContainer {
+    padding: 10px;
+    text-align: center;
+    color: white;
+    background-color: #2196F3;
+    box-shadow: 0px 2px 0px black;
+    height: 60px;
+}
+
+.interfaceContainer {
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+
