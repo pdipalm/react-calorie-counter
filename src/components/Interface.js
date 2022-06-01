@@ -12,8 +12,24 @@ import ListItem from '@mui/material/ListItem';
 
 
 export function Interface() {
+
+    const [mealItems, updateMealItems] = useState(JSON.parse(localStorage.getItem('meal-list')) || []);
+    const [calSum, setCalSum] = useState(JSON.parse(localStorage.getItem('cal-sum')) || 0);
+
+    /*React.useEffect(() => {
+        const mealDataOnLoad = localStorage.getItem('meal-list');
+        const calSumOnLoad = localStorage.getItem('cal-sum');
+        if (mealDataOnLoad != null) {
+            updateMealItems(JSON.parse(mealDataOnLoad));
+            setCalSum(JSON.parse(calSumOnLoad));
+        }
+    }, []);*/
+
+    React.useEffect(() => {
+        localStorage.setItem('meal-list', JSON.stringify(mealItems));
+        localStorage.setItem('cal-sum', calSum)
+    }, [mealItems, calSum]);
     
-    var [calSum, setCalSum] = useState(0);
     
     const AddButton = styled(Button) (() => ({
         color: 'white',
@@ -25,19 +41,19 @@ export function Interface() {
         },
     }));
     
-    function handleAddMeal() {
-        console.log("addmeal called");
+    function handleAddMeal(name, cal_count) {
+        console.log("addmeal handler called");
     
         let newItems = mealItems;
     
         newItems.push({
-            foodName: 'y',
-            calories: 50
+            foodName: name,
+            calories: cal_count
         });
 
         updateMealItems([...newItems]);
 
-        setCalSum(calSum + newItems[newItems.length-1].calories);
+        setCalSum(parseInt(calSum) + parseInt(newItems[newItems.length-1].calories));
 
         console.log(mealItems);
     }
@@ -50,10 +66,6 @@ export function Interface() {
             </ListItem>
         )
     }
-    
-    const [mealItems, updateMealItems] = useState([
-        //null
-    ])
     
     const MealList = () => {
         return(
@@ -74,6 +86,8 @@ export function Interface() {
     const [mfocused, setmFocused] = useState(false);
     const [cfocused, setcFocused] = useState(false);
 
+    var [mealText, setMealText] = useState();
+    var [calText, setCalText] = useState();
     /*textfield width*/
     /*const TfWidth = 400;*/
 
@@ -85,13 +99,14 @@ export function Interface() {
                     <Stack justifyContent="left">
                         <Container style={{fontSize: "24px", paddingLeft: "22px", margin:"0px", textAlign: "left"}}>Add Meal / Food Item</Container>
                         <br />
-                        <Stack direction="row" /*alignItems="center" justifyContent="space-evenly"*/>
+                        <Stack direction="row" /*alignItems="left"*/ justifyContent="space-evenly">
                             <Stack>
                                 <Container style={{ fontSize: "14px", color: mfocused ? 'blue' : ''}}>
                                     <Box>meal</Box>
-                                    <TextField id="interfaceTF" placeholder="Add item" variant="standard" shrink="true" style={{ width: '100%' }}
+                                    <TextField id="interfaceTF" placeholder="Add item" variant="standard" /*shrink="true"*/ style={{ width: '200%' }}
                                         onFocus={() => setmFocused(true)}
                                         onBlur={() => setmFocused(false)}
+                                        onChange={(mealText) => setMealText(mealText.target.value)}
                                     />
                                 </Container>
                             </Stack>
@@ -99,16 +114,17 @@ export function Interface() {
                             <Stack>
                                 <Container style={{ fontSize: "14px", color: cfocused ? 'blue' : '' }}>
                                     <Box>calories</Box>
-                                    <TextField id="interfaceTF" placeholder="Add calories" variant="standard" shrink="true" style={{ width: '100%' }} type="number"
+                                    <TextField id="interfaceTF" placeholder="Add calories" variant="standard" /*shrink="true"*/ style={{ width: '200%' }} type="number"
                                         onFocus={() => setcFocused(true)}
                                         onBlur={() => setcFocused(false)}
+                                        onChange={(calText) => setCalText(calText.target.value)}
                                     />
                                 </Container>
                             </Stack>
                         </Stack>
                         <br />
                         <AddButton startIcon={<AddBoxIcon />} onClick={() => {
-                            handleAddMeal();
+                            handleAddMeal(mealText, calText);
                         }}>
                             ADD MEAL
                         </AddButton>
