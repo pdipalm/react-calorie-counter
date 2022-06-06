@@ -9,6 +9,9 @@ import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
 
 
 export function Interface() {
@@ -43,27 +46,45 @@ export function Interface() {
     
     function handleAddMeal(name, cal_count) {
         console.log("addmeal handler called");
+
+        if(name == null || cal_count == null){  //checking for user errors
+            console.log("null");
+            return;
+        }
     
         let newItems = mealItems;
     
-        newItems.push({
+        newItems.push({     
             foodName: name,
             calories: cal_count
         });
 
-        updateMealItems([...newItems]);
+        updateMealItems([...newItems]);     //update state with new mealItem
 
-        setCalSum(parseInt(calSum) + parseInt(newItems[newItems.length-1].calories));
+        setCalSum(parseInt(calSum) + parseInt(newItems[newItems.length-1].calories));  // add new calories to old sum and update state
 
-        console.log(mealItems);
+        mealInput.current.value = "";       //reset textfields
+        calInput.current.value = "";
+
+        setCalText(null);                   //reset onChange handler states
+        setMealText(null);
+
+        console.log(mealItems);      
+
+        
     }
     
     const MealItem = ({index, foodName, calories}) => {
         return(
-            <ListItem key={index}>
-                <strong>{foodName}:</strong>
-                <em>{calories} Calories</em>
-            </ListItem>
+            <Box>
+                <Divider />
+                <ListItem key={index}>
+                    <strong>{foodName}:{'\u00A0'}</strong>
+                    <em>{calories} Calories</em>
+                    <IconButton style={{left: '98%', position: 'absolute'}} onClick={() => { handleEdit() }}><EditIcon /></IconButton>
+                </ListItem>
+                <Divider />
+            </Box>
         )
     }
     
@@ -80,16 +101,57 @@ export function Interface() {
             </List>
         )
     }
+
+    const [isEditing, setIsEditing] = useState(false);
+
+    const handleEdit = () => {
+        //console.log('editing')
+        setIsEditing(true);
+    }
+
+    const ButtonHandler = () => {
+        if(isEditing){
+            return(
+                <Stack direction='row' alignItems='flex-start' spacing={2}>
+                    <div />
+                    <Button
+                        variant="contained"
+                        sx={{
+                            backgroundColor: 'orange',
+                            float: 'right',
+                        }}
+                    >UPDATE MEAL</Button>
+                    <Button
+                        variant="contained"
+                        sx={{
+                            backgroundColor: 'red',
+                            float: 'right',
+                        }}
+                    >DELETE MEAL</Button>
+                </Stack>
+            )
+        }
+        
+        return(
+            <AddButton startIcon={<AddBoxIcon />} onClick={() => {
+                handleAddMeal(mealText, calText);
+            }}>
+                ADD MEAL
+            </AddButton>
+        )
+        
+    }
     
 
     /*states for changing labels above textfields*/
     const [mfocused, setmFocused] = useState(false);
     const [cfocused, setcFocused] = useState(false);
 
-    var [mealText, setMealText] = useState();
-    var [calText, setCalText] = useState();
-    /*textfield width*/
-    /*const TfWidth = 400;*/
+    const [mealText, setMealText] = useState();
+    const [calText, setCalText] = useState();
+
+    const mealInput = React.useRef(null);
+    const calInput = React.useRef(null);
 
     return (
         <Box className="interfaceContainer">
@@ -99,7 +161,7 @@ export function Interface() {
                     <Stack justifyContent="left">
                         <Container style={{fontSize: "24px", paddingLeft: "22px", margin:"0px", textAlign: "left"}}>Add Meal / Food Item</Container>
                         <br />
-                        <Stack direction="row" /*alignItems="left"*/ justifyContent="space-evenly">
+                        <Stack direction="row" alignItems="center" justifyContent="space-around">
                             <Stack>
                                 <Container style={{ fontSize: "14px", color: mfocused ? 'blue' : ''}}>
                                     <Box>meal</Box>
@@ -107,6 +169,7 @@ export function Interface() {
                                         onFocus={() => setmFocused(true)}
                                         onBlur={() => setmFocused(false)}
                                         onChange={(mealText) => setMealText(mealText.target.value)}
+                                        inputRef={mealInput}
                                     />
                                 </Container>
                             </Stack>
@@ -118,16 +181,13 @@ export function Interface() {
                                         onFocus={() => setcFocused(true)}
                                         onBlur={() => setcFocused(false)}
                                         onChange={(calText) => setCalText(calText.target.value)}
+                                        inputRef={calInput}
                                     />
                                 </Container>
                             </Stack>
                         </Stack>
                         <br />
-                        <AddButton startIcon={<AddBoxIcon />} onClick={() => {
-                            handleAddMeal(mealText, calText);
-                        }}>
-                            ADD MEAL
-                        </AddButton>
+                        <ButtonHandler />
                     </Stack>
                     <br />
                     <br />
@@ -146,14 +206,4 @@ export function Interface() {
     )
 }
 
-
-
-/*function MealList() {
-    return(
-        <List>
-            <ListItem><MealItem foodName="j" calories="12" /></ListItem>
-            <ListItem><MealItem foodName="p" calories="15" /></ListItem>
-        </List>
-    )
-}*/
 export default Interface

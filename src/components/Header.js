@@ -3,6 +3,12 @@
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
+
+function clearAll(){
+    localStorage.clear()
+    window.location.reload(false);
+}
+
 const Header = () => {
     return (
         <Box className='headerContainer'>
@@ -16,6 +22,7 @@ const Header = () => {
                     float: 'right',
                     top: '-40px'
                 }}
+                onClick={() => { clearAll() }}
             >CLEAR ALL</Button>
 
         </Box>
