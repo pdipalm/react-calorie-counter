@@ -12,27 +12,19 @@ import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
-
+import Grid from '@mui/material/Grid';
+import CloseIcon from '@mui/icons-material/Close';
+import ConstructionIcon from '@mui/icons-material/Construction';
 
 export function Interface() {
 
     const [mealItems, updateMealItems] = useState(JSON.parse(localStorage.getItem('meal-list')) || []);
     const [calSum, setCalSum] = useState(JSON.parse(localStorage.getItem('cal-sum')) || 0);
 
-    /*React.useEffect(() => {
-        const mealDataOnLoad = localStorage.getItem('meal-list');
-        const calSumOnLoad = localStorage.getItem('cal-sum');
-        if (mealDataOnLoad != null) {
-            updateMealItems(JSON.parse(mealDataOnLoad));
-            setCalSum(JSON.parse(calSumOnLoad));
-        }
-    }, []);*/
-
     React.useEffect(() => {
         localStorage.setItem('meal-list', JSON.stringify(mealItems));
         localStorage.setItem('cal-sum', calSum)
     }, [mealItems, calSum]);
-    
     
     const AddButton = styled(Button) (() => ({
         color: 'white',
@@ -40,7 +32,23 @@ export function Interface() {
         width: 130,
         backgroundColor: '#1565C0',
         '&:hover': {
-            backgroundColor: '#1565C0',
+            backgroundColor: '#1254a1',
+        },
+    }));
+
+    const UpdateButton = styled(Button) (() => ({
+        backgroundColor: 'orange',
+        float: 'right',
+        '&:hover': {
+            backgroundColor: '#cc8500',
+        },
+    }));
+
+    const DeleteButton = styled(Button) (() => ({
+        backgroundColor: 'red',
+        float: 'right',
+        '&:hover': {
+            backgroundColor: '#cc0000',
         },
     }));
     
@@ -58,8 +66,6 @@ export function Interface() {
             foodName: name,
             calories: cal_count
         });
-
-        // updateMealItems([...newItems]);     //update state with new mealItem
 
         setCalSum(parseInt(calSum) + parseInt(newItems[newItems.length-1].calories));  // add new calories to old sum and update state
 
@@ -124,22 +130,16 @@ export function Interface() {
             return(
                 <Stack direction='row' alignItems='flex-start' spacing={2}>
                     <div />
-                    <Button
+                    <UpdateButton
                         variant="contained"
-                        sx={{
-                            backgroundColor: 'orange',
-                            float: 'right',
-                        }}
                         onClick = {() => {updateMeal()}}
-                    >UPDATE MEAL</Button>
-                    <Button
+                        startIcon={<ConstructionIcon />}
+                    >UPDATE MEAL</UpdateButton>
+                    <DeleteButton
                         variant="contained"
-                        sx={{
-                            backgroundColor: 'red',
-                            float: 'right',
-                        }}
-                       onClick = {() =>  {deleteMeal()}}
-                    >DELETE MEAL</Button>
+                        onClick = {() =>  {deleteMeal()}}
+                        startIcon={<CloseIcon />}
+                    >DELETE MEAL</DeleteButton>
                 </Stack>
             )
         }
@@ -224,31 +224,34 @@ export function Interface() {
                     <Stack justifyContent="left">
                         <Container style={{fontSize: "24px", paddingLeft: "22px", margin:"0px", textAlign: "left"}}>Add Meal / Food Item</Container>
                         <br />
-                        <Stack direction="row" alignItems="stretch" /*justifyContent="space-around"*/>
-                            <Stack>
-                                <Container style={{ fontSize: "14px", color: mfocused ? 'blue' : ''}}>
-                                    <Box>meal</Box>
-                                    <TextField id="interfaceTF" placeholder="Add item" variant="standard" fullWidth style={{ width: '100%' }}
-                                        onFocus={() => setmFocused(true)}
-                                        onBlur={() => setmFocused(false)}
-                                        onChange={(mealText) => setMealText(mealText.target.value)}
-                                        inputRef={mealInput}
-                                    />
-                                </Container>
-                            </Stack>
-                            
-                            <Stack>
-                                <Container style={{ fontSize: "14px", color: cfocused ? 'blue' : '' }}>
-                                    <Box>calories</Box>
-                                    <TextField id="interfaceTF" placeholder="Add calories" variant="standard" fullWidth style={{ width: '100%' }} type="number"
-                                        onFocus={() => setcFocused(true)}
-                                        onBlur={() => setcFocused(false)}
-                                        onChange={(calText) => setCalText(calText.target.value)}
-                                        inputRef={calInput}
-                                    />
-                                </Container>
-                            </Stack>
-                        </Stack>
+                        <Grid container spacing={1}>
+                            <Grid item xs={6}>
+                                <Stack>
+                                    <Container style={{ fontSize: "14px", color: mfocused ? 'blue' : ''}}>
+                                        <Box>meal</Box>
+                                        <TextField id="interfaceTF" placeholder="Add item" variant="standard" fullWidth style={{ width: '100%' }}
+                                            onFocus={() => setmFocused(true)}
+                                            onBlur={() => setmFocused(false)}
+                                            onChange={(mealText) => setMealText(mealText.target.value)}
+                                            inputRef={mealInput}
+                                        />
+                                    </Container>
+                                </Stack>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Stack>
+                                    <Container style={{ fontSize: "14px", color: cfocused ? 'blue' : '' }}>
+                                        <Box>calories</Box>
+                                        <TextField id="interfaceTF" placeholder="Add calories" variant="standard" fullWidth style={{ width: '100%' }} type="number"
+                                            onFocus={() => setcFocused(true)}
+                                            onBlur={() => setcFocused(false)}
+                                            onChange={(calText) => setCalText(calText.target.value)}
+                                            inputRef={calInput}
+                                        />
+                                    </Container>
+                                </Stack>`
+                            </Grid>
+                        </Grid>
                         <br />
                         <ButtonHandler />
                     </Stack>
