@@ -1,31 +1,70 @@
-## Instructions
+# Getting Started with Create React App
 
-This repo contains a simple calorie counter app made with vanilla JavaScript and LocalStorage for persistence. It has basic CRUD functionality where users can track the foods they have eaten that day.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Your task is to reimplement this app in React using [create-react-app](https://create-react-app.dev/) for scaffolding, the [MUI](https://mui.com/) component library for the UI, and [React Context](https://reactjs.org/docs/context.html) for state management. **You must use React Function Components with Hooks, and you can not use any other dependencies / libraries except those mentioned above.**
+## Available Scripts
 
-### Minimum Requirements
+In the project directory, you can run:
 
-1. Create a new app with create-react-app and store it in a new GitHub repo.
+### `npm start`
 
-   _As you work on the app, break up your progress into commits with clear messages noting the progress you are making._
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-2. Use [MUI](https://mui.com/) components and the _Roboto_ font to create the UI for your app. The UI should have the same general structure as the provided example but does not need to exactly match.
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-3. Implement the CRUD functionality found in the provided example app and persist data in LocalStorage so that users' items are still present after refreshing the page.
+### `npm test`
 
-4. Host your completed app in GitHub Pages or Netlify so that we can see the finished product and discuss it in your follow-up interview. Share the link to your GitHub repo with us as well.
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### Optional Features
+### `npm run build`
 
-Optional features are listed below that you may choose from and implement to set your submission apart from others and demonstrate your more advanced skillset. A preferred candidate will implement at least 2 of these features.
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-1. Replace LocalStorage with Firestore as a backend database to store the meal items
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-2. Add Firebase authentication to enable users to sign up and log in/out of the app
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-3. Use TypeScript to add static typechecking to the app
+### `npm run eject`
 
-4. Use a GitHub Action or Netlify Automatic Deploy to automatically update your hosted app when you push changes to GitHub
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-5. Add tests. Use Cypress if you choose to add end-to-end tests.
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
