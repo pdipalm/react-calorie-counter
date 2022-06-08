@@ -15,11 +15,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import Grid from '@mui/material/Grid';
 import CloseIcon from '@mui/icons-material/Close';
 import ConstructionIcon from '@mui/icons-material/Construction';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export function Interface() {
 
     const [mealItems, updateMealItems] = useState(JSON.parse(localStorage.getItem('meal-list')) || []);                     //stores all meals as object array
     const [calSum, setCalSum] = useState(JSON.parse(localStorage.getItem('cal-sum')) || 0);                                 //stores calorie sum as number
+
 
     React.useEffect(() => {                                                                                                 //saves user data to localStorage on every rerender
         localStorage.setItem('meal-list', JSON.stringify(mealItems));
@@ -219,6 +221,18 @@ export function Interface() {
     const mealInput = React.useRef(null);       //refs to textfields
     const calInput = React.useRef(null);
 
+    /*const CustomTF = styled(TextField)({
+        
+    })*/
+
+    const TFtheme = createTheme({
+        palette: {
+            primary: {
+                main: '#499c8c'
+            },
+        }
+    });
+
     return (            //main DOM return
         <Box className="interfaceContainer">
             <Stack className="outerStack">
@@ -227,34 +241,36 @@ export function Interface() {
                     <Stack justifyContent="left">
                         <Container style={{fontSize: "24px", paddingLeft: "22px", margin:"0px", textAlign: "left"}}>Add Meal / Food Item</Container>
                         <br />
-                        <Grid container spacing={1}>
-                            <Grid item xs={6}>
-                                <Stack>
-                                    <Container style={{ fontSize: "14px", color: mfocused ? 'blue' : ''}}>
-                                        <Box>meal</Box>
-                                        <TextField id="interfaceTF" placeholder="Add item" variant="standard" fullWidth style={{ width: '100%' }}
-                                            onFocus={() => setmFocused(true)}
-                                            onBlur={() => setmFocused(false)}
-                                            onChange={(mealText) => setMealText(mealText.target.value)}
-                                            inputRef={mealInput}
-                                        />
-                                    </Container>
-                                </Stack>
+                        <ThemeProvider theme={TFtheme}>
+                            <Grid container spacing={1}>
+                                <Grid item xs={6}>
+                                    <Stack>
+                                        <Container style={{ fontSize: "14px", color: mfocused ? '#499c8c' : ''}}>
+                                            <Box>meal</Box>
+                                            <TextField id="interfaceTF" placeholder="Add item" variant="standard" fullWidth sx={{ width: '100%' }}
+                                                onFocus={() => setmFocused(true)}
+                                                onBlur={() => setmFocused(false)}
+                                                onChange={(mealText) => setMealText(mealText.target.value)}
+                                                inputRef={mealInput}
+                                            />
+                                        </Container>
+                                    </Stack>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Stack>
+                                        <Container style={{ fontSize: "14px", color: cfocused ? '#499c8c' : '' }}>
+                                            <Box>calories</Box>
+                                            <TextField id="interfaceTF" placeholder="Add calories" variant="standard" fullWidth sx={{ width: '100%' }} type="number"
+                                                onFocus={() => setcFocused(true)}
+                                                onBlur={() => setcFocused(false)}
+                                                onChange={(calText) => setCalText(calText.target.value)}
+                                                inputRef={calInput}
+                                            />
+                                        </Container>
+                                    </Stack>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={6}>
-                                <Stack>
-                                    <Container style={{ fontSize: "14px", color: cfocused ? 'blue' : '' }}>
-                                        <Box>calories</Box>
-                                        <TextField id="interfaceTF" placeholder="Add calories" variant="standard" fullWidth style={{ width: '100%' }} type="number"
-                                            onFocus={() => setcFocused(true)}
-                                            onBlur={() => setcFocused(false)}
-                                            onChange={(calText) => setCalText(calText.target.value)}
-                                            inputRef={calInput}
-                                        />
-                                    </Container>
-                                </Stack>`
-                            </Grid>
-                        </Grid>
+                        </ThemeProvider>
                         <br />
                         <ButtonHandler />
                     </Stack>
