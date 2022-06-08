@@ -1,4 +1,4 @@
-# [view the current build!](https://app.netlify.com/sites/rainbow-sfogliatella-37fe7e/overview](https://rainbow-sfogliatella-37fe7e.netlify.app/)
+# (https://app.netlify.com/sites/rainbow-sfogliatella-37fe7e/overview](https://rainbow-sfogliatella-37fe7e.netlify.app/)
 
 ### Minimum Requirements
 
