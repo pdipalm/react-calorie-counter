@@ -1,8 +1,4 @@
-## Instructions
-
-This repo contains a simple calorie counter app made with vanilla JavaScript and LocalStorage for persistence. It has basic CRUD functionality where users can track the foods they have eaten that day.
-
-Your task is to reimplement this app in React using [create-react-app](https://create-react-app.dev/) for scaffolding, the [MUI](https://mui.com/) component library for the UI, and [React Context](https://reactjs.org/docs/context.html) for state management. **You must use React Function Components with Hooks, and you can not use any other dependencies / libraries except those mentioned above.**
+[view the current build!](https://app.netlify.com/sites/rainbow-sfogliatella-37fe7e/overview)
 
 ### Minimum Requirements
 
