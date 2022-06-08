@@ -18,15 +18,15 @@ import ConstructionIcon from '@mui/icons-material/Construction';
 
 export function Interface() {
 
-    const [mealItems, updateMealItems] = useState(JSON.parse(localStorage.getItem('meal-list')) || []);
-    const [calSum, setCalSum] = useState(JSON.parse(localStorage.getItem('cal-sum')) || 0);
+    const [mealItems, updateMealItems] = useState(JSON.parse(localStorage.getItem('meal-list')) || []);                     //stores all meals as object array
+    const [calSum, setCalSum] = useState(JSON.parse(localStorage.getItem('cal-sum')) || 0);                                 //stores calorie sum as number
 
-    React.useEffect(() => {
+    React.useEffect(() => {                                                                                                 //saves user data to localStorage on every rerender
         localStorage.setItem('meal-list', JSON.stringify(mealItems));
         localStorage.setItem('cal-sum', calSum)
     }, [mealItems, calSum]);
     
-    const AddButton = styled(Button) (() => ({
+    const AddButton = styled(Button) (() => ({                                                                              //styled addButton, used in buttonhandler
         color: 'white',
         left: 20,
         width: 130,
@@ -36,7 +36,7 @@ export function Interface() {
         },
     }));
 
-    const UpdateButton = styled(Button) (() => ({
+    const UpdateButton = styled(Button) (() => ({                                                                           //styled updateButton, used in buttonhandler
         backgroundColor: 'orange',
         float: 'right',
         '&:hover': {
@@ -44,7 +44,7 @@ export function Interface() {
         },
     }));
 
-    const DeleteButton = styled(Button) (() => ({
+    const DeleteButton = styled(Button) (() => ({                                                                          //styled deleteButton, used in buttonhandler
         backgroundColor: 'red',
         float: 'right',
         '&:hover': {
@@ -52,35 +52,35 @@ export function Interface() {
         },
     }));
     
-    function handleAddMeal(name, cal_count) {
-        console.log("addmeal handler called");
+    function handleAddMeal(name, cal_count) {                                                                              //handles addMeal functionality, called onClick of add meal
+        // console.log("addmeal handler called");   
 
         if(name == null || cal_count == null){  //checking for user errors
             console.log("null");
             return;
         }
     
-        let newItems = mealItems;
+        let newItems = mealItems;               //new ref to mealItems
     
-        newItems.push({     
+        newItems.push({                         //push new meal to array
             foodName: name,
             calories: cal_count
         });
 
         setCalSum(parseInt(calSum) + parseInt(newItems[newItems.length-1].calories));  // add new calories to old sum and update state
 
-        mealInput.current.value = "";       //reset textfields
+        mealInput.current.value = "";          //reset textfields
         calInput.current.value = "";
 
-        setCalText(null);                   //reset onChange handler states
+        setCalText(null);                      //reset onChange handler states
         setMealText(null);
 
-        console.log(mealItems);      
+        // console.log(mealItems);      
 
         
     }
     
-    const MealItem = ({id, foodName, calories}) => {
+    const MealItem = ({id, foodName, calories}) => {                                    //MealItem DOM object as li, edit iconbutton found here as well
         return(
             <Box>
                 <Divider />
@@ -94,7 +94,7 @@ export function Interface() {
         )
     }
     
-    const MealList = () => {
+    const MealList = () => {                                                           //meal list DOM object, holds list of MealItems
         return(
             <List>
                 {mealItems.map((item, i) => (
@@ -109,24 +109,25 @@ export function Interface() {
         )
     }
 
-    const [isEditing, setIsEditing] = useState(false);
-    const [editingId, setEditingId] = useState(-1);
-    const [editingCalCount, setEditingCalCount] = useState(-1);
-    const [editingName, setEditingName] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);              //is the user editing?
+    const [editingId, setEditingId] = useState(-1);                 //what index of MealItems is the user editing?
+    const [editingCalCount, setEditingCalCount] = useState(-1);     //calorie count of the mealItem being edited?
+    const [editingName, setEditingName] = useState(null);           //food name of mealItem being edited?
 
-    function handleEdit(id, calories, foodName){
-        console.log('editing',{id});
-        setEditingId(id);
-        setEditingCalCount(calories);
+    function handleEdit(id, calories, foodName){                    //handle first part of editing of MealItems, called by edit IconButton
+        // console.log('editing',{id});
+        setEditingId(id);                   //set states
+        setEditingCalCount(calories);       
         setEditingName(foodName);
-        if(isEditing){
+        if(isEditing){                      //triggers when user clicks iconbutton again to return to AddMeal state without making edits to MealItems
             setIsEditing(false);
             return;
         }
         setIsEditing(true);
     }
-    const ButtonHandler = () => {   
-        if(isEditing){
+    
+    const ButtonHandler = () => {                                   //toggles between addmeal buttons and edit/delete buttons onClick of iconButton                           
+        if(isEditing){          //returns update and delete buttons if user is trying to edit
             return(
                 <Stack direction='row' alignItems='flex-start' spacing={2}>
                     <div />
@@ -143,7 +144,7 @@ export function Interface() {
                 </Stack>
             )
         }
-       
+        //else we return the addMeal button to the DOM
         return(
             <AddButton startIcon={<AddBoxIcon />} onClick={() => {
                 handleAddMeal(mealText, calText);
@@ -153,55 +154,57 @@ export function Interface() {
         )
         
     }
-    const [isUpdating, setUpdating] = useState(false);
-    function updateMeal(){
-        console.log('update clicked');
-        if(!isUpdating){
-            console.log('1st press');
+    
+    const [isUpdating, setUpdating] = useState(false);      //update button has modified functionality depending on first press or second press, false-first, true-second
+    function updateMeal(){                                  //called when orange updateButton is pressed
+        // console.log('update clicked');
+        if(!isUpdating){                                    //triggered during first press
+            // console.log('1st press');
             mealInput.current.value = editingName;
             calInput.current.value = editingCalCount;
             setUpdating(true);
             return;
         }
-        console.log('2nd press');
+
+        // console.log('2nd press');
+        if(mealInput.current.value === '' || calInput.current.value === ''){      //user made an error or maybe they don't like me :( (just kidding it's me. I'm the user)
+            setUpdating(false);     //reset our states
+            setIsEditing(false);
         
-        
+            mealInput.current.value = "";   //reset our textfields (they should already be like this but...)
+            calInput.current.value = "";
+
+            return;     //do nothing and return 
+        }
+
         let newItems = mealItems;
-        var oldCals = 0;
-        oldCals = editingCalCount;
-        // newItems.splice(editingId, 1, {id: editingId, foodName: editingName, calCount: editingCalCount});
-        // console.log(newItems);
+        var oldCals = editingCalCount;
 
-        // mealItems[editingId] = {id: editingId, foodName: editingName, calCount: editingCalCount}
-        console.log('look at dis - ', calInput.current.value)
-        newItems.splice(editingId, 1, {id: editingId, foodName: mealInput.current.value, calories: calInput.current.value});
-        localStorage.setItem('meal-list', JSON.stringify(newItems));
-
-        // console.log(mealItems);
+        // console.log('look at dis - ', calInput.current.value)
         
-        // setCalSum(parseInt(calSum)+(parseInt(calInput.current.value) - parseInt(oldCals)))
+        newItems.splice(editingId, 1, {id: editingId, foodName: mealInput.current.value, calories: calInput.current.value});  //splice edited item with "new" item, retain same ID, values pulled from TextField refs
+        localStorage.setItem('meal-list', JSON.stringify(newItems));    //push modifications to localStorage
 
-        console.log(oldCals);
-        setCalSum(parseInt(calSum)+(parseInt(calInput.current.value)-parseInt(oldCals)));
+        //console.log(oldCals);
+        setCalSum(parseInt(calSum)+(parseInt(calInput.current.value)-parseInt(oldCals)));       //arithmetic to adjust calorie count
 
-        //setCalSum()
-
-        setUpdating(false);
+        setUpdating(false);     //reset our states
         setIsEditing(false);
-        mealInput.current.value = "";
+        
+        mealInput.current.value = "";   //reset our textfields
         calInput.current.value = "";
     }
     
-    function deleteMeal(){
-        console.log('delete ', editingId);
-        if(editingId === -1){
+    function deleteMeal(){          //called onclick of delete button
+        // console.log('delete ', editingId);
+        if(editingId === -1){           //this should never happen but I have no faith when it comes to software
             console.log('delete failed');
             return;
         }
-        // let newItems = mealItems;
-        // newItems.splice(editingId, 1);      
-        updateMealItems(mealItems.filter((o, i) => editingId !== i));
-        setCalSum(calSum-editingCalCount);
+             
+        updateMealItems(mealItems.filter((o, i) => editingId !== i));       //I was informed this is a better solution than splicing, because splice does a deep copy behind the scenes?
+        
+        setCalSum(calSum-editingCalCount);      //subtract from old calories
         setIsEditing(false);
         setEditingId(-1);
     }
@@ -210,13 +213,13 @@ export function Interface() {
     const [mfocused, setmFocused] = useState(false);
     const [cfocused, setcFocused] = useState(false);
 
-    const [mealText, setMealText] = useState();
+    const [mealText, setMealText] = useState();     //states for onChange of textfields
     const [calText, setCalText] = useState();
 
-    const mealInput = React.useRef(null);
+    const mealInput = React.useRef(null);       //refs to textfields
     const calInput = React.useRef(null);
 
-    return (
+    return (            //main DOM return
         <Box className="interfaceContainer">
             <Stack className="outerStack">
                 <Paper>
