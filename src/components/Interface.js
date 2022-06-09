@@ -206,7 +206,7 @@ export function Interface() {
              
         updateMealItems(mealItems.filter((o, i) => editingId !== i));       //I was informed this is a better solution than splicing, because splice does a deep copy behind the scenes?
         
-        setCalSum(calSum-editingCalCount);      //subtract from old calories
+        setCalSum(parseInt(calSum)-parseInt(editingCalCount));      //subtract from old calories
         setIsEditing(false);
         setEditingId(-1);
     }
@@ -246,12 +246,10 @@ export function Interface() {
                                 <Grid item xs={6}>
                                     <Stack>
                                         <Container style={{ fontSize: "14px", /*color: mfocused ? '#499c8c' : ''*/}}>
-                                            <Box>meal</Box>
-                                            <TextField id="interfaceTF" placeholder="Add item" variant="standard" fullWidth sx={{ width: '100%' }}
-                                                /*onFocus={() => setmFocused(true)}
-                                                onBlur={() => setmFocused(false)}*/
+                                            <TextField id="interfaceTF" placeholder="Add item" variant="standard" fullWidth sx={{ width: '100%' }} label='meal'                                               
                                                 onChange={(mealText) => setMealText(mealText.target.value)}
                                                 inputRef={mealInput}
+                                                InputLabelProps={{ shrink: true }}
                                             />
                                         </Container>
                                     </Stack>
@@ -259,12 +257,10 @@ export function Interface() {
                                 <Grid item xs={6}>
                                     <Stack>
                                         <Container style={{ fontSize: "14px", /*color: cfocused ? '#499c8c' : ''*/ }}>
-                                            <Box>calories</Box>
-                                            <TextField id="interfaceTF" placeholder="Add calories" variant="standard" fullWidth sx={{ width: '100%' }} type="number"
-                                                /*onFocus={() => setcFocused(true)}
-                                                onBlur={() => setcFocused(false)}*/
+                                            <TextField id="interfaceTF" placeholder="Add calories" variant="standard" fullWidth sx={{ width: '100%' }} type="number" label='calories'
                                                 onChange={(calText) => setCalText(calText.target.value)}
                                                 inputRef={calInput}
+                                                InputLabelProps={{ shrink: true }}
                                             />
                                         </Container>
                                     </Stack>
