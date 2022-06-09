@@ -212,8 +212,8 @@ export function Interface() {
     }
 
     /*states for changing labels above textfields*/
-    const [mfocused, setmFocused] = useState(false);
-    const [cfocused, setcFocused] = useState(false);
+    /*const [mfocused, setmFocused] = useState(false);
+    const [cfocused, setcFocused] = useState(false);*/
 
     const [mealText, setMealText] = useState();     //states for onChange of textfields
     const [calText, setCalText] = useState();
@@ -245,11 +245,11 @@ export function Interface() {
                             <Grid container spacing={1}>
                                 <Grid item xs={6}>
                                     <Stack>
-                                        <Container style={{ fontSize: "14px", color: mfocused ? '#499c8c' : ''}}>
+                                        <Container style={{ fontSize: "14px", /*color: mfocused ? '#499c8c' : ''*/}}>
                                             <Box>meal</Box>
                                             <TextField id="interfaceTF" placeholder="Add item" variant="standard" fullWidth sx={{ width: '100%' }}
-                                                onFocus={() => setmFocused(true)}
-                                                onBlur={() => setmFocused(false)}
+                                                /*onFocus={() => setmFocused(true)}
+                                                onBlur={() => setmFocused(false)}*/
                                                 onChange={(mealText) => setMealText(mealText.target.value)}
                                                 inputRef={mealInput}
                                             />
@@ -258,11 +258,11 @@ export function Interface() {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <Stack>
-                                        <Container style={{ fontSize: "14px", color: cfocused ? '#499c8c' : '' }}>
+                                        <Container style={{ fontSize: "14px", /*color: cfocused ? '#499c8c' : ''*/ }}>
                                             <Box>calories</Box>
                                             <TextField id="interfaceTF" placeholder="Add calories" variant="standard" fullWidth sx={{ width: '100%' }} type="number"
-                                                onFocus={() => setcFocused(true)}
-                                                onBlur={() => setcFocused(false)}
+                                                /*onFocus={() => setcFocused(true)}
+                                                onBlur={() => setcFocused(false)}*/
                                                 onChange={(calText) => setCalText(calText.target.value)}
                                                 inputRef={calInput}
                                             />
