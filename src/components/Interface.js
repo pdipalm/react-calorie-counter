@@ -114,18 +114,19 @@ export function Interface() {
     const [isEditing, setIsEditing] = useState(false);              //is the user editing?
     const [editingId, setEditingId] = useState(-1);                 //what index of MealItems is the user editing?
     const [editingCalCount, setEditingCalCount] = useState(-1);     //calorie count of the mealItem being edited?
-    const [editingName, setEditingName] = useState(null);           //food name of mealItem being edited?
 
     function handleEdit(id, calories, foodName){                    //handle first part of editing of MealItems, called by edit IconButton
-        // console.log('editing',{id});
         setEditingId(id);                   //set states
         setEditingCalCount(calories);       
-        setEditingName(foodName);
         if(isEditing){                      //triggers when user clicks iconbutton again to return to AddMeal state without making edits to MealItems
             setIsEditing(false);
+            mealInput.current.value = "";
+            calInput.current.value = "";
             return;
         }
         setIsEditing(true);
+        mealInput.current.value = foodName;
+        calInput.current.value = calories;
     }
     
     const ButtonHandler = () => {                                   //toggles between addmeal buttons and edit/delete buttons onClick of iconButton                           
@@ -157,20 +158,8 @@ export function Interface() {
         
     }
     
-    const [isUpdating, setUpdating] = useState(false);      //update button has modified functionality depending on first press or second press, false-first, true-second
     function updateMeal(){                                  //called when orange updateButton is pressed
-        // console.log('update clicked');
-        if(!isUpdating){                                    //triggered during first press
-            // console.log('1st press');
-            mealInput.current.value = editingName;
-            calInput.current.value = editingCalCount;
-            setUpdating(true);
-            return;
-        }
-
-        // console.log('2nd press');
         if(mealInput.current.value === '' || calInput.current.value === ''){      //user made an error or maybe they don't like me :( (just kidding it's me. I'm the user)
-            setUpdating(false);     //reset our states
             setIsEditing(false);
         
             mealInput.current.value = "";   //reset our textfields (they should already be like this but...)
@@ -188,9 +177,8 @@ export function Interface() {
         localStorage.setItem('meal-list', JSON.stringify(newItems));    //push modifications to localStorage
 
         //console.log(oldCals);
-        setCalSum(parseInt(calSum)+(parseInt(calInput.current.value)-parseInt(oldCals)));       //arithmetic to adjust calorie count
-
-        setUpdating(false);     //reset our states
+        setCalSum(parseInt(calSum)+(parseInt(calInput.current.value)-parseInt(oldCals)));       //arithmetic to adjust calorie count     
+        //reset our states
         setIsEditing(false);
         
         mealInput.current.value = "";   //reset our textfields
@@ -198,9 +186,8 @@ export function Interface() {
     }
     
     function deleteMeal(){          //called onclick of delete button
-        // console.log('delete ', editingId);
         if(editingId === -1){           //this should never happen but I have no faith when it comes to software
-            console.log('delete failed');
+            console.log('delete failed unxexpectedly');
             return;
         }
              
@@ -209,21 +196,15 @@ export function Interface() {
         setCalSum(parseInt(calSum)-parseInt(editingCalCount));      //subtract from old calories
         setIsEditing(false);
         setEditingId(-1);
+        mealInput.current.value = "";
+        calInput.current.value = "";
     }
 
-    /*states for changing labels above textfields*/
-    /*const [mfocused, setmFocused] = useState(false);
-    const [cfocused, setcFocused] = useState(false);*/
-
-    const [mealText, setMealText] = useState();     //states for onChange of textfields
+    const [mealText, setMealText] = useState();     //states for storing keystrokes made in textfields
     const [calText, setCalText] = useState();
 
     const mealInput = React.useRef(null);       //refs to textfields
     const calInput = React.useRef(null);
-
-    /*const CustomTF = styled(TextField)({
-        
-    })*/
 
     const TFtheme = createTheme({
         palette: {
@@ -249,7 +230,7 @@ export function Interface() {
                                             <TextField id="interfaceTF" placeholder="Add item" variant="standard" fullWidth sx={{ width: '100%' }} label='meal'                                               
                                                 onChange={(mealText) => setMealText(mealText.target.value)}
                                                 inputRef={mealInput}
-                                                InputLabelProps={{ shrink: true }}
+                                                InputLabelProps={{ shrink: true, fontSize: '14.5px' }}
                                             />
                                         </Container>
                                     </Stack>
